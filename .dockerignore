@@ -1,11 +1,6 @@
 .git
-.codex
-.agents
 __pycache__
 *.pyc
 .matplotlib-cache
 data/*.db
 charts/*.png
-git_ignore/
-*.pdf
-채용과제순서(codex).md
