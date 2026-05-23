@@ -1,0 +1,7 @@
+services:
+  event-log-pipeline:
+    build: .
+    container_name: event-log-pipeline
+    volumes:
+      - ./data:/app/data
+      - ./charts:/app/charts
