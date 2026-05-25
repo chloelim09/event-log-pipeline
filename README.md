@@ -39,8 +39,10 @@ docker compose up --build
 ```
 
 추가 안내사항.
+```bash
 Docker Compose v2 환경에서는 `docker compose up --build`를 사용하고,
 구버전 Compose v1 환경에서는 `docker-compose up --build`를 사용하면 됩니다.
+```
 
 
 실행 시 컨테이너 안에서 아래 순서가 자동으로 진행됩니다.
@@ -95,9 +97,9 @@ review_rating : 평점. 예) PURCHASE 이벤트에서만 생성되는 1부터 5 
 product : 상품명. 예) p1, p2, p3, p4, p5 중 하나
 ```
 
-모든 이벤트가 모든 필드를 가지는 것은 아닙니다. `events` 테이블에는 모든 이벤트의 공통 정보가 저장되고, 상품과 금액이 필요한 거래 정보는 `transactions` 테이블에 따로 저장됩니다.
+이벤트 타입은 웹 서비스에서 자주 발생할 수 있는 행동을 기준으로 정했습니다. `VIEW`, `CLICK`, `LOGIN`, `LOGOUT`은 사용자의 기본 행동 흐름을 보기 위한 이벤트이고, `PURCHASE`, `REFUND`, `EXCHANGE`는 상품과 금액이 연결되는 거래 이벤트입니다.
 
-거래 정보는 `PURCHASE`, `REFUND`, `EXCHANGE` 이벤트에서 생성됩니다. 리뷰 평점(`review_rating`)은 구매한 상품에 대한 리뷰라고 보고 `PURCHASE` 이벤트에서만 생성했습니다.
+거래 이벤트는 금액(`amount`), 수량(`quantity`), 상품명(`product`)이 필요하지만 일반 행동 이벤트에는 이런 값이 필요하지 않습니다. 그래서 기본 로그는 `events`, 거래 정보는 `transactions`, 리뷰 정보는 `reviews`로 나누었습니다. 리뷰 평점(`review_rating`)은 구매한 상품에 대한 리뷰라고 보고 `PURCHASE` 이벤트에서만 생성했습니다.
 
 ## DB 스키마
 
@@ -187,7 +189,7 @@ charts/top_amount_user_by_product.png
 
 `transactions` 테이블에는 `event_type`을 저장하지 않았습니다. 이미 `events` 테이블에 같은 정보가 있으므로 중복 저장을 줄이고, 필요한 경우 `event_id`로 JOIN해서 이벤트 타입을 가져오도록 설계했습니다.
 
-Docker 구성은 SQLite 파일 DB와 Python 앱을 함께 실행하는 방식으로 만들었습니다. 별도 DB 서버 컨테이너를 두지 않아도 `data/events.db` 파일이 생성되므로 구조가 단순하고, 다른 노트북에서도 Docker만 설치되어 있으면 같은 명령어로 실행할 수 있습니다.
+Docker 구성은 Python 코드가 실행되면서 SQLite DB 파일을 만드는 방식으로 만들었습니다. SQLite는 `data/events.db`처럼 파일 하나로 저장되기 때문에 따로 DB 프로그램을 실행하지 않아도 되고, Docker만 설치되어 있으면 같은 명령어로 실행할 수 있습니다.
 
 ## Docker 검증 결과
 
