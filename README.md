@@ -32,18 +32,24 @@ README.md
 
 ### Docker로 실행
 
-Docker가 설치된 환경에서는 아래 명령어 한 번으로 실행할 수 있습니다.
+필요한 도구는 Docker Desktop입니다. Docker Desktop을 설치한 뒤 터미널에서 아래 명령어로 Docker와 Docker Compose가 실행되는지 확인합니다.
+
+```bash
+docker --version
+docker compose version
+```
+
+Docker Compose v2 환경에서는 아래 명령어 한 번으로 실행할 수 있습니다.
 
 ```bash
 docker compose up --build
 ```
 
-추가 안내사항.
-```bash
-Docker Compose v2 환경에서는 `docker compose up --build`를 사용하고,
-구버전 Compose v1 환경에서는 `docker-compose up --build`를 사용하면 됩니다.
-```
+구버전 Compose v1 환경에서는 아래 명령어를 사용하면 됩니다.
 
+```bash
+docker-compose up --build
+```
 
 실행 시 컨테이너 안에서 아래 순서가 자동으로 진행됩니다.
 
@@ -103,6 +109,7 @@ product : 상품명. 예) p1, p2, p3, p4, p5 중 하나
 
 ## DB 스키마
 
+### 저장소 선택 이유
 이 프로젝트는 SQLite를 사용합니다. SQLite는 Python 기본 라이브러리인 `sqlite3`로 바로 사용할 수 있고, 별도 DB 서버 없이 파일 하나로 실행할 수 있어 과제 규모에 적합하다고 판단했습니다.
 
 JSON 전체를 한 컬럼에 저장하지 않고, 분석에 필요한 필드를 컬럼으로 나누어 저장했습니다. 또한 모든 컬럼을 한 테이블에 넣지 않고 속성에 따라 3개 테이블로 분리했습니다.
